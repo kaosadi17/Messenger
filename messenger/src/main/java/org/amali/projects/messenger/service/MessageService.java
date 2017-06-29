@@ -1,6 +1,7 @@
 package org.amali.projects.messenger.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,28 @@ public class MessageService {
 	
 	public List<Message> getAllMessages(){
 		return new ArrayList<Message>(messages.values());
+	}
+	
+	public List<Message> getMessageByYear(int year){
+		List<Message> messageList = new ArrayList<>();
+		Calendar cal = Calendar.getInstance();
+		for(Message message: messages.values()){
+			cal.setTime(message.getCreated());
+			if(cal.get(Calendar.YEAR)== year){
+				messageList.add(message);
+			}
+		}
+		return messageList;
+		
+	}
+	
+	public List<Message> getMessageByPagn(int start, int size){
+		ArrayList<Message> list = new ArrayList<Message>(messages.values());
+		if(start+size > list.size()){
+			return new ArrayList<Message>();
+		}
+		return list.subList(start, start+size);
+		
 	}
 	
 	public Message getMessage(long id){
